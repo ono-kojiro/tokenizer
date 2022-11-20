@@ -31,10 +31,10 @@ PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 AC_ARG_ENABLE([parser],
 	[ AS_HELP_STRING(
 			[--enable-parser],
-			[enable parser (default is no)])
+			[enable parser (default is yes)])
 	],
 	[ enable_parser="${enableval}" ],
-	[ enable_parser="no" ]
+	[ enable_parser="yes" ]
 )
 
 AS_IF([test "x$enable_parser" = "xyes"],
@@ -116,14 +116,17 @@ AC_CHECK_FUNCS([memmove])
 AC_CHECK_FUNCS([strdup])
 AC_CHECK_FUNCS([strndup])
 
+if test -n "$enable_parser" -a "x$enable_parser" = "xyes" ; then
+  AC_CONFIG_FILES([
+                  tools/Makefile
+                  parser/Makefile])
+fi
+
+
 AC_CONFIG_FILES([Makefile
                  scanner/Makefile
                  example/Makefile
                  tests/Makefile])
-
-if test -n "$enable_parser" -a "x$enable_parser" = "xyes" ; then
-  AC_CONFIG_FILES([parser/Makefile])
-fi
 
 AC_OUTPUT
 

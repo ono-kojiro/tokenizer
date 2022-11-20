@@ -1,13 +1,16 @@
 ACLOCAL_AMFLAGS = -I config
-	
-SUBDIRS = \
+
+SUBDIRS =
+
+if USE_PARSER
+SUBDIRS += tools \
+    parser
+endif
+
+SUBDIRS += \
 	scanner \
 	example \
 	tests
-
-if USE_PARSER
-SUBDIRS += parser
-endif
 
 test :
 	$(MAKE) check
