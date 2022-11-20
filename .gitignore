@@ -10,7 +10,7 @@
 # Linker output
 *.ilk
 *.map
-*.exp
+#*.exp
 
 # Precompiled Headers
 *.gch
@@ -50,3 +50,17 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+aclocal.m4
+autom4te.cache/
+config.log
+config.status
+config/
+configure
+*~
+libtool
+Makefile
+Makefile.in
+.deps/
+.libs/
+
