@@ -26,7 +26,7 @@ void token_destructor(Token *t)
   
 
 %name MyParser
-//%token_prefix TOKEN_
+%token_prefix TOKEN_
 
 %token_type {Token*}
 %default_type {Token*}
@@ -56,33 +56,48 @@ void token_destructor(Token *t)
 input ::= lines .
 
 lines ::= EOL .
-lines ::= line EOL .
-lines ::= lines line EOL .
+lines ::= token EOL .
+lines ::= lines token EOL .
 
-line ::= wd .
-line ::= dec .
-line ::= any .
-line ::= i_constant .
-line ::= f_constant .
-line ::= dbs .
-line ::= backslash .
-line ::= string_literal .
+token ::= comma .
+token ::= number .
+token ::= colon .
+token ::= a_begin .
+token ::= a_end .
+token ::= o_begin .
+token ::= o_end .
+token ::= string .
+token ::= null .
+token ::= true .
+token ::= false .
+token ::= dbl_quote .
+token ::= any .
 
-line ::= line wd .
-line ::= line dec .
-line ::= line any .
-line ::= line i_constant .
-line ::= line f_constant .
-line ::= line dbs .
-line ::= line backslash .
-line ::= line string_literal .
+token ::= token comma .
+token ::= token number .
+token ::= token colon .
+token ::= token a_begin .
+token ::= token a_end .
+token ::= token o_begin .
+token ::= token o_end .
+token ::= token string .
+token ::= token null .
+token ::= token true .
+token ::= token false .
+token ::= token dbl_quote .
+token ::= token any .
 
-dec       ::= DEC .
-wd        ::= WD .
-any       ::= ANY .
-i_constant ::= I_CONSTANT .
-f_constant ::= F_CONSTANT .
-backslash ::= BACKSLASH .
-dbs ::= DBS .
-string_literal ::= STRING_LITERAL .
+comma   ::= COMMA .
+number  ::= NUMBER .
+colon   ::= COLON .
+a_begin ::= A_BEGIN .
+a_end   ::= A_END .
+o_begin ::= O_BEGIN .
+o_end   ::= O_END .
+string  ::= STRING .
+null    ::= NULL .
+true    ::= TRUE .
+false   ::= FALSE .
+dbl_quote ::= DBL_QUOTE .
+any     ::= ANY .
 

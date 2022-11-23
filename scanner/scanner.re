@@ -29,32 +29,28 @@ int Scanner_Scan(INPUT *s)
 /*!re2c
     end = "\x00";
     eol = ([\r\n]|[\n]);
-    ws  = [ \t\v]+;
+    
+    ws    = [ \t\v]+;
+    DIGIT = [0-9];         // digit
+    DIGIT1TO9 = [1-9];         // non-zero
+    DIGITS = DIGIT+;
+    INT = DIGIT | DIGIT1TO9 DIGITS | "-" DIGITS | "-" DIGIT1TO9 DIGITS;
+    FRAC = [.] DIGITS;
+    E   = [Ee][+-]?;
+    EXP = E DIGITS;
+    
+    HEX_DIGIT   = [a-fA-F0-9];   // hex digit
+    NUMBER = INT | INT FRAC | INT EXP | INT FRAC EXP;
+    UNESCAPEDCHAR = [ -!#-\[\]--~];
+    ESCAPEDCHAR = "\\" [\\bfnrt/];
 
-    O   = [0-7];         // oct
-    D   = [0-9];         // digit
-    NZ  = [1-9];         // non-zero
-    L   = [a-zA-Z_];     // letter
-    A   = [a-zA-Z_0-9];  // alphabet
-    H   = [a-fA-F0-9];   // hex
-    HP  = "0" [xX];      // hex prefix
-    E   = [Ee][+-]?D+;
-    P   = [Pp][+-]?D+;
-    FS  = ("f"|"F"|"l"|"L");     // float suffix
-    IS  = ((("u"|"U")("l"|"L"|"ll"|"LL")?)|(("l"|"L"|"ll"|"LL")("u"|"U")?));
-    CP  = ("u"|"U"|"L");
-	SP  = ("u8"|"u"|"U"|"L");
+    UNICODECHAR = "\\u" HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT;
+    CHAR = UNESCAPEDCHAR | ESCAPEDCHAR | UNICODECHAR;
+    CHARS = CHAR+;
+    DBL_QUOTE = [\"];
 
-    DBS = "\\\\"; // double backslash
-	ES  = "\\"  ( [\'"?abfnrtv] | [0-7]{1,3} | "x" [a-FA-F0-9]+);
-	BS  = "\x5C";  // backspace 0d92
-
-    wd  = (A)+;
-    dec = (D|NZ)+;
-
-	any = [^];
+	ANY = [^];
 */
-
 
     for (;;) {
 std:
@@ -69,11 +65,6 @@ std:
             re2c:define:YYLIMIT = s->lim;
             re2c:define:YYFILL = "fill(s) == 0";
 			
-            * {
-				fprintf(stderr, "(UNKNOWN:%X)", s->tok[0]);
-				RET(-1);
-			}
-            
             $ {
 				fprintf(s->out, "(EOF)\n");
 				RET(EOF);
@@ -101,72 +92,64 @@ std:
 				RET(EOF);
 			}
 			
-            "'\\\\'" {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
+			DBL_QUOTE ANY* DBL_QUOTE {
+                RET(TOKEN_STRING);
+            }
 
-			SP? "\"" ([^"])* "\"" {
-				PRINT_TOKEN("STRING_LITERAL");
-				return(STRING_LITERAL);
-			}
+            NUMBER {
+                RET(TOKEN_NUMBER);
+            }
 
-			BS {
-				PRINT_TOKEN("BACKSLASH");
-				RET(BACKSLASH);
-			}
-			
-            CP? "'" (ES)+ "'" {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
+            "true" {
+                RET(TOKEN_TRUE);
+            }
 
-			CP? "'" ([^'])+ "'" {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
-			
-			(HP) (H)+ (IS)? {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
+            "false" {
+                RET(TOKEN_FALSE);
+            }
 
-			NZ D* IS? {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
+            "null" {
+                RET(TOKEN_NULL);
+            }
 
-			"0" D* IS? {
-				PRINT_TOKEN("I_CONSTANT");
-				RET(I_CONSTANT);
-			}
+            "{" {
+                RET(TOKEN_O_BEGIN);
+            }
 
-			D* "." D+ E? FS? {
-				PRINT_TOKEN("F_CONSTANT");
-				RET(F_CONSTANT);
-			}
+            "}" {
+                RET(TOKEN_O_END);
+            }
 
-			dec {
-				PRINT_TOKEN("DEC");
-				RET(DEC);
-			}
-			
-			wd {
-				PRINT_TOKEN("WD");
-				RET(WD);
-			}
+            "[" {
+                RET(TOKEN_A_BEGIN);
+            }
 
-			ws {
-				fprintf(s->out, "%.*s",
-					(int)(s->cur - s->tok), s->tok);
-				continue;
+            "]" {
+                RET(TOKEN_A_END);
+            }
+
+            "," {
+                RET(TOKEN_COMMA);
+            }
+
+            ":" {
+                RET(TOKEN_COLON);
+            }
+
+            ws+ {
+                continue;
+            }
+
+            //DBL_QUOTE {
+            //    RET(TOKEN_DBL_QUOTE);
+            //}
+            
+            * {
+				fprintf(stderr, "(UNKNOWN:%X)", s->tok[0]);
+				RET(-1);
 			}
-			
-			any {
-				PRINT_TOKEN("ANY");
-				RET(ANY);
-			}
-			
+            
+
 		*/
 
         /*!include:re2c "comment_c.re" */

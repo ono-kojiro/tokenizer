@@ -10,10 +10,7 @@ AC_CONFIG_HEADERS([config/config.h])
 AC_REQUIRE_AUX_FILE([tap-driver.sh])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects])
-
 LT_INIT
-
-
 
 # Checks for programs.
 AC_PROG_CC
@@ -31,22 +28,24 @@ PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 AC_ARG_ENABLE([parser],
 	[ AS_HELP_STRING(
 			[--enable-parser],
-			[enable parser (default is yes)])
+			[enable parser (default is no)])
 	],
 	[ enable_parser="${enableval}" ],
-	[ enable_parser="yes" ]
-)
-
-AS_IF([test "x$enable_parser" = "xyes"],
-	[ use_parser=1 ],
-	[ use_parser=0 ]
+	[ enable_parser="no" ]
 )
 
 # define USE_PARSER variable in config.h
-AC_DEFINE([USE_PARSER], [$use_parser], [use parser])
+AS_IF([test "x$enable_parser" = "xyes"],
+	[
+      AC_DEFINE([USE_PARSER], [1], [use parser])
+    ],
+    [
+      AC_DEFINE([USE_PARSER], [0], [use parser])
+    ]
+)
 
 # define USE_PARSER variable in Makefile
-AM_CONDITIONAL([USE_PARSER], [ test $use_parser -eq "1" ])
+AM_CONDITIONAL([USE_PARSER], [ test $enable_parser = "yes" ])
 
 #######################
 ###   DEBUG
@@ -54,10 +53,10 @@ AM_CONDITIONAL([USE_PARSER], [ test $use_parser -eq "1" ])
 AC_ARG_ENABLE([debug],
 	[ AS_HELP_STRING(
 			[--enable-debug],
-			[enable debug (default is no)])
+			[enable debug (default is yes)])
 	],
 	[ enable_debug="${enableval}" ],
-	[ enable_debug="no" ]
+	[ enable_debug="yes" ]
 )
 
 AS_IF([test "x$enable_debug" = "xyes"],
@@ -70,10 +69,10 @@ AC_SUBST([DEBUG])
 AC_ARG_ENABLE([debug-parser],
 	[ AS_HELP_STRING(
 			[--enable-debug-parser],
-			[enable debug in parser (default is no)])
+			[enable debug in parser (default is yes)])
 	],
 	[ enable_debug_parser="${enableval}" ],
-	[ enable_debug_parser="no" ]
+	[ enable_debug_parser="yes" ]
 )
 
 AS_IF([test "x$enable_debug_parser" = "xyes"],
@@ -88,10 +87,10 @@ AC_SUBST([DEBUG_PARSER])
 AC_ARG_ENABLE([debug-scanner],
 	[ AS_HELP_STRING(
 			[--enable-debug-scanner],
-			[enable debug in scanner (default is no)])
+			[enable debug in scanner (default is yes)])
 	],
 	[ enable_debug_scanner="${enableval}" ],
-	[ enable_debug_scanner="no" ]
+	[ enable_debug_scanner="yes" ]
 )
 
 AS_IF([test "x$enable_debug_scanner" = "xyes"],
