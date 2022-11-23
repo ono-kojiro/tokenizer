@@ -84,7 +84,8 @@ std:
 
 			eol {
 				fprintf(s->out, "(EOL)\n");
-				continue; //RET(TOKEN_EOL);
+				continue;
+                //RET(TOKEN_EOL);
 			}
 
 			end {

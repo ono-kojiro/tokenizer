@@ -6,10 +6,7 @@ SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) ./my-test-driver
 
 
 TESTS = \
-	test_simple.sh \
-    test_alphabet.sh \
-    test_digits.sh \
-    test_hex.sh
+	test_simple.sh
 
 EXTRA_DIST = $(TESTS)
 

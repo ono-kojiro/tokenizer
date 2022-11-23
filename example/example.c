@@ -127,6 +127,7 @@ int main(int argc, char **argv)
 #if DEBUG
 				fprintf(stderr, "DEBUG : %s(%d) Scanner_Scan() returned %d\n",
 					__FILE__ , __LINE__ , token_id);
+			    MyParser(parser, 0, NULL);
 #endif
 				break;
 			}

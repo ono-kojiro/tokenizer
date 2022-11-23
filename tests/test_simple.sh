@@ -2,5 +2,6 @@
 
 example=../example/example
 
-$example input.txt
+$example input.json
+
 
