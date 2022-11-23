@@ -28,10 +28,10 @@ PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 AC_ARG_ENABLE([parser],
 	[ AS_HELP_STRING(
 			[--enable-parser],
-			[enable parser (default is no)])
+			[enable parser (default is yes)])
 	],
 	[ enable_parser="${enableval}" ],
-	[ enable_parser="no" ]
+	[ enable_parser="yes" ]
 )
 
 # define USE_PARSER variable in config.h
