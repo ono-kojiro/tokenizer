@@ -55,20 +55,28 @@ void token_destructor(Token *t)
 /*  This is to terminate with a new line */
 input ::= lines .
 
-lines ::= .
-lines ::= lines token .
+lines ::= array .
+lines ::= object .
 
-token   ::= COMMA .
-token   ::= NUMBER .
-token   ::= COLON .
-token   ::= A_BEGIN .
-token   ::= A_END .
-token   ::= O_BEGIN .
-token   ::= O_END .
-token   ::= STRING .
-token   ::= NULL .
-token   ::= TRUE .
-token   ::= FALSE .
-token   ::= DBL_QUOTE .
-token   ::= ANY .
+object ::= O_BEGIN O_END .
+object ::= O_BEGIN members O_END .
+
+members ::= pair .
+members ::= pair COMMA members .
+
+pair ::= STRING COLON value .
+
+array ::= A_BEGIN A_END .
+array ::= A_BEGIN elements A_END .
+
+elements ::= value .
+elements ::= value COMMA elements .
+
+value ::= STRING .
+value ::= NUMBER .
+value ::= object .
+value ::= array .
+value ::= TRUE .
+value ::= FALSE .
+value ::= NULL .
 
