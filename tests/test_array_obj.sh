@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-example=../example/example
+executable=../tokenizer/tokenizer
 
-$example array_obj.json
+$executable array_obj.json
 
 
