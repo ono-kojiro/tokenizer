@@ -64,3 +64,6 @@ Makefile.in
 .deps/
 .libs/
 
+rpmbuild/
+*.tar.gz
+

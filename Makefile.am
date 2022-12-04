@@ -2,6 +2,8 @@ ACLOCAL_AMFLAGS = -I config
 
 SUBDIRS =
 
+EXTRA_DIST = tokenizer.spec
+
 if USE_PARSER
 SUBDIRS += tools \
     parser
