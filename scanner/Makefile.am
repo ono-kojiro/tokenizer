@@ -8,10 +8,10 @@ libscanner_la_SOURCES = \
     input.h
 
 libscanner_la_CFLAGS = \
-	-I$(top_builddir)/parser
+	-I$(top_srcdir)/parser
 
 -include scanner.dep
 
 .re.c :
-	re2c -o $@ --depfile scanner.dep $<
+	$(RE2C) -o $@ --depfile scanner.dep $<
 

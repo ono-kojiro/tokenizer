@@ -2,7 +2,8 @@
 #                  $(top_srcdir)/config/my-test-driver
 
 TEST_EXTENSIONS = .sh
-SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) ./my-test-driver
+SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+	my-test-driver
 
 
 TESTS = \
@@ -10,9 +11,12 @@ TESTS = \
     test_obj_array.sh \
     test_array_obj.sh
 
-EXTRA_DIST = $(TESTS)
+EXTRA_DIST = $(TESTS) my-test-driver
 
-test : check
+all :
+	cp -f $(abs_srcdir)/my-test-driver .
+	cp -f $(abs_srcdir)/*.sh .
+	cp -f $(abs_srcdir)/*.json .
 
 prove :
 	prove --formatter TAP::Formatter::JUnit test_*.t

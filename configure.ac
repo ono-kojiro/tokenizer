@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([chktoken], [0.0.1], [ono.kojiro@gmail.com])
+AC_INIT([tokenizer], [0.0.1], [ono.kojiro@gmail.com])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([config])
-AC_CONFIG_SRCDIR([example/example.c])
+AC_CONFIG_SRCDIR([tokenizer/tokenizer.c])
 AC_CONFIG_HEADERS([config/config.h])
 AC_REQUIRE_AUX_FILE([tap-driver.sh])
 
@@ -15,6 +15,13 @@ LT_INIT
 # Checks for programs.
 AC_PROG_CC
 #AC_PROG_LIBTOOL
+
+AC_PATH_PROG([RE2C], [re2c], [no])
+if test "$RE2C" = "no" ; then
+  echo "ERROR : no re2c found"
+  exit 1
+fi
+AC_SUBST([RE2C])
 
 # Checks for libraries.
 PKG_CHECK_MODULES([SQLITE3], [sqlite3 >= 3.37.2])
@@ -124,7 +131,7 @@ fi
 
 AC_CONFIG_FILES([Makefile
                  scanner/Makefile
-                 example/Makefile
+                 tokenizer/Makefile
                  tests/Makefile])
 
 AC_OUTPUT
