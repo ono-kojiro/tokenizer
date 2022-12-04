@@ -21,5 +21,5 @@ all :
 	fi
 
 prove :
-	prove --formatter TAP::Formatter::JUnit test_*.t
+	prove --formatter TAP::Formatter::JUnit test_*.t > junit_results.xml
 
