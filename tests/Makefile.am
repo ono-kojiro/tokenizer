@@ -14,3 +14,6 @@ EXTRA_DIST = $(TESTS)
 
 test : check
 
+prove :
+	prove --formatter TAP::Formatter::JUnit test_*.t
+
