@@ -11,6 +11,8 @@ CLEANFILES = $(top_srcdir)/parser/parser.c $(top_srcdir)/parser/parser.h
 
 libparser_la_SOURCES = $(top_srcdir)/parser/parser.c userdata.c str.c
 
+libparser_la_CFLAGS  = -I$(top_srcdir)/parser
+
 $(top_srcdir)/parser/parser.h : $(top_srcdir)/parser/parser.c token.h
 	{ \
 	echo '#ifndef PARSER_H'; \
@@ -24,5 +26,7 @@ $(top_srcdir)/parser/parser.h : $(top_srcdir)/parser/parser.c token.h
 	} > $@
 
 $(top_srcdir)/parser/parser.c : $(top_srcdir)/parser/parser.y
-	$(LEMON) T=$(LEMPAR) -s -m $< && { if test $$? -ne 0; then rm -f $@; exit 1; fi }
+	cd $(top_srcdir)/parser && \
+	$(LEMON) T=$(LEMPAR) -s -m parser.y && \
+    { if test $$? -ne 0; then rm -f parser.c ; exit 1; fi }
 
