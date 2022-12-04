@@ -15,7 +15,7 @@ SUBDIRS += \
 	tests
 
 test :
-	$(MAKE) check
+	$(MAKE) -C tests test
 
 rpm :
 	rm -rf $(top_srcdir)/rpmbuild
