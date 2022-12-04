@@ -1,10 +1,8 @@
-#TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-#                  $(top_srcdir)/config/my-test-driver
+LOG_DRIVER := $(SHELL) driver_wrapper.sh $(top_srcdir)/config/test-driver
 
-TEST_EXTENSIONS = .sh
-SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-	my-test-driver
-
+#TEST_EXTENSIONS = .sh
+#SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+#	my-test-driver
 
 TESTS = \
 	test_simple.sh \
@@ -22,4 +20,9 @@ all :
 
 prove :
 	prove --formatter TAP::Formatter::JUnit test_*.t > junit_results.xml
+
+prove2 :
+	prove --formatter TAP::Formatter::JUnit tap_wrapper.sh
+
+test : check
 
