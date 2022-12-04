@@ -15,11 +15,11 @@ all :
 	  cp -f $(abs_srcdir)/*.json . ; \
 	fi
 
-prove :
+test :
 	prove \
         --formatter TAP::Formatter::JUnit \
-        --timer tap_wrapper.sh \
+        --timer \
+        tap_wrapper.sh \
         > junit_result.xml
 
-test : check
 

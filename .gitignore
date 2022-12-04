@@ -66,4 +66,5 @@ Makefile.in
 
 rpmbuild/
 *.tar.gz
+*.swp
 
