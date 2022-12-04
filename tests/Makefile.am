@@ -1,28 +1,25 @@
 LOG_DRIVER := $(SHELL) driver_wrapper.sh $(top_srcdir)/config/test-driver
 
-#TEST_EXTENSIONS = .sh
-#SH_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-#	my-test-driver
-
 TESTS = \
 	test_simple.sh \
     test_obj_array.sh \
     test_array_obj.sh
 
-EXTRA_DIST = $(TESTS) my-test-driver
+EXTRA_DIST = $(TESTS) driver_wrapper.sh tap_wrapper.sh
 
 all :
 	if [ "$(abs_srcdir)" != "$(abs_builddir)" ]; then \
-	  cp -f $(abs_srcdir)/my-test-driver .; \
-	  cp -f $(abs_srcdir)/*.sh . ; \
+	  cp -f $(abs_srcdir)/driver_wrapper.sh .; \
+	  cp -f $(abs_srcdir)/tap_wrapper.sh .; \
+	  cp -f $(abs_srcdir)/test_*.sh . ; \
 	  cp -f $(abs_srcdir)/*.json . ; \
 	fi
 
 prove :
-	prove --formatter TAP::Formatter::JUnit test_*.t > junit_results.xml
-
-prove2 :
-	prove --formatter TAP::Formatter::JUnit tap_wrapper.sh
+	prove \
+        --formatter TAP::Formatter::JUnit \
+        --timer tap_wrapper.sh \
+        > junit_result.xml
 
 test : check
 

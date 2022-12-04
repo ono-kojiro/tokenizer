@@ -10,21 +10,6 @@ while [ "$#" -ne 0 ] ; do
       shift
       test_name="$1"
       ;;
-    --log-file )
-      shift
-      ;;
-    --trs-file )
-      shift
-      ;;
-    --color-tests )
-      shift
-      ;;
-    --enable-hard-errors )
-      shift
-      ;;
-    --expect-failure )
-      shift
-      ;;
     -- )
       break
       ;;
@@ -33,7 +18,6 @@ while [ "$#" -ne 0 ] ; do
   esac
 
   shift
-
 done
 
 $cmd
@@ -43,5 +27,4 @@ if [ "$?" -eq 0 ] ; then
 else
   echo "not ok - $test_name" 
 fi
-
 
