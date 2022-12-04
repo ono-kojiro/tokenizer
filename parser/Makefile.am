@@ -1,9 +1,9 @@
 lib_LTLIBRARIES = libparser.la
 
-LEMON = $(top_builddir)/tools/lemon
-MAKEHEADERS = $(top_builddir)/tools/makeheaders
+LEMON = $(abs_top_builddir)/tools/lemon
+MAKEHEADERS = $(abs_top_builddir)/tools/makeheaders
 
-LEMPAR = $(top_srcdir)/tools/lempar.c
+LEMPAR = $(abs_top_srcdir)/tools/lempar.c
 
 BUILT_SOURCES = $(top_srcdir)/parser/parser.c $(top_srcdir)/parser/parser.h
 
