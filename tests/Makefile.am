@@ -14,9 +14,11 @@ TESTS = \
 EXTRA_DIST = $(TESTS) my-test-driver
 
 all :
-	cp -f $(abs_srcdir)/my-test-driver .
-	cp -f $(abs_srcdir)/*.sh .
-	cp -f $(abs_srcdir)/*.json .
+	if [ "$(abs_srcdir)" != "$(abs_builddir)" ]; then \
+	  cp -f $(abs_srcdir)/my-test-driver .; \
+	  cp -f $(abs_srcdir)/*.sh . ; \
+	  cp -f $(abs_srcdir)/*.json . ; \
+	fi
 
 prove :
 	prove --formatter TAP::Formatter::JUnit test_*.t
