@@ -72,6 +72,7 @@ array ::= A_BEGIN A_END .
 array ::= A_BEGIN elements A_END .
 
 elements ::= value .
+elements ::= value COMMA .
 elements ::= value COMMA elements .
 
 value ::= STRING .
