@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 		MyParserInit(parser, userdata);
 #endif
 
-#if DEBUG_PARSER
+#if USE_PARSER
 		MyParserTrace(stderr, "PARSER : ");
 #endif
 	
@@ -127,6 +127,9 @@ int main(int argc, char **argv)
 #if DEBUG
 				fprintf(stderr, "DEBUG : %s(%d) Scanner_Scan() returned %d\n",
 					__FILE__ , __LINE__ , token_id);
+#endif
+
+#if USE_PARSER
 			    MyParser(parser, 0, NULL);
 #endif
 				break;

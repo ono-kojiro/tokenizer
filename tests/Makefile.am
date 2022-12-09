@@ -1,9 +1,14 @@
+noinst_PROGRAMS = test_init
+
 LOG_DRIVER := $(SHELL) driver_wrapper.sh $(top_srcdir)/config/test-driver
 
 TESTS = \
 	test_simple.sh \
     test_obj_array.sh \
-    test_array_obj.sh
+    test_array_obj.sh \
+    test_init
+
+check_PROGRAMS = test_init
 
 EXTRA_DIST = $(TESTS) driver_wrapper.sh tap_wrapper.sh
 
@@ -22,4 +27,17 @@ test :
         tap_wrapper.sh \
         > junit_result.xml
 
+test_init_SOURCES = test_init.c
+
+test_init_CFLAGS = \
+    $(CHECK_CFLAGS) \
+    $(SQLITE3_CFLAGS) \
+    -I$(top_srcdir)/parser \
+    -I$(top_srcdir)/scanner
+
+test_init_LDFLAGS = \
+    $(top_builddir)/parser/libparser.la \
+    $(top_builddir)/scanner/libscanner.la \
+    $(SQLITE3_LIBS) \
+    $(CHECK_LIBS)
 

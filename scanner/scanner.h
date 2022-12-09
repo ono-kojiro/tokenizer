@@ -22,7 +22,6 @@ enum {
     TOKEN_NULL,
     TOKEN_TRUE,
     TOKEN_FALSE,
-    TOKEN_DBL_QUOTE,
 	TOKEN_ANY
 };
 #endif

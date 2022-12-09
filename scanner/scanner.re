@@ -83,13 +83,13 @@ std:
 			}
 
 			eol {
-				fprintf(s->out, "(EOL)\n");
+				//fprintf(s->out, "(EOL)\n");
 				continue;
                 //RET(TOKEN_EOL);
 			}
 
 			end {
-				fprintf(s->out, "(EOF)\n");
+				//fprintf(s->out, "(EOF)\n");
 				RET(EOF);
 			}
 			
@@ -141,16 +141,10 @@ std:
                 continue;
             }
 
-            //DBL_QUOTE {
-            //    RET(TOKEN_DBL_QUOTE);
-            //}
-            
             * {
 				fprintf(stderr, "(UNKNOWN:%X)", s->tok[0]);
 				RET(-1);
 			}
-            
-
 		*/
 
         /*!include:re2c "comment_c.re" */
