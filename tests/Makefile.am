@@ -1,14 +1,15 @@
-noinst_PROGRAMS = test_init
-
+noinst_PROGRAMS = test_init test_comma
+ 
 LOG_DRIVER := $(SHELL) tap_wrapper.sh $(top_srcdir)/config/test-driver
 
 TESTS = \
 	test_simple.sh \
     test_obj_array.sh \
     test_array_obj.sh \
-    test_init
+    test_init \
+    test_comma
 
-check_PROGRAMS = test_init
+check_PROGRAMS = test_init test_comma
 
 EXTRA_DIST = $(TESTS) test_prove.sh tap_wrapper.sh
 
@@ -40,4 +41,19 @@ test_init_LDFLAGS = \
     $(top_builddir)/scanner/libscanner.la \
     $(SQLITE3_LIBS) \
     $(CHECK_LIBS)
+
+test_comma_SOURCES = test_comma.c
+
+test_comma_CFLAGS = \
+    $(CHECK_CFLAGS) \
+    $(SQLITE3_CFLAGS) \
+    -I$(top_srcdir)/parser \
+    -I$(top_srcdir)/scanner
+
+test_comma_LDFLAGS = \
+    $(top_builddir)/parser/libparser.la \
+    $(top_builddir)/scanner/libscanner.la \
+    $(SQLITE3_LIBS) \
+    $(CHECK_LIBS)
+
 

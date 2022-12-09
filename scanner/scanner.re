@@ -69,6 +69,31 @@ std:
 				fprintf(s->out, "(EOF)\n");
 				RET(EOF);
             }
+            
+            "," {
+                RET(TOKEN_COMMA);
+            }
+
+            ":" {
+                RET(TOKEN_COLON);
+            }
+
+            "{" {
+                RET(TOKEN_O_BEGIN);
+            }
+
+            "}" {
+                RET(TOKEN_O_END);
+            }
+
+            "[" {
+                RET(TOKEN_A_BEGIN);
+            }
+
+            "]" {
+                RET(TOKEN_A_END);
+            }
+
 
 			"/*" {
 				goto comment_c;
@@ -93,7 +118,7 @@ std:
 				RET(EOF);
 			}
 			
-			DBL_QUOTE ANY* DBL_QUOTE {
+			DBL_QUOTE [^"]* DBL_QUOTE {
                 RET(TOKEN_STRING);
             }
 
@@ -111,30 +136,6 @@ std:
 
             "null" {
                 RET(TOKEN_NULL);
-            }
-
-            "{" {
-                RET(TOKEN_O_BEGIN);
-            }
-
-            "}" {
-                RET(TOKEN_O_END);
-            }
-
-            "[" {
-                RET(TOKEN_A_BEGIN);
-            }
-
-            "]" {
-                RET(TOKEN_A_END);
-            }
-
-            "," {
-                RET(TOKEN_COMMA);
-            }
-
-            ":" {
-                RET(TOKEN_COLON);
             }
 
             ws+ {

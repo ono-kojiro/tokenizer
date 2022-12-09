@@ -23,6 +23,7 @@ int main(int argc, char **argv)
 		{ "version", no_argument, 0, 'v' },
 		{ "output", required_argument, 0, 'o' },
 		{ "database", required_argument, 0, 'd' },
+		{ "disable-parser", no_argument, 0, 0 },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -47,6 +48,8 @@ int main(int argc, char **argv)
     int debug = 0;
     char *env_debug = NULL;
 
+    int enable_parser = 1;
+
 	while(1){
 		c = getopt_long(
 				argc,
@@ -61,6 +64,13 @@ int main(int argc, char **argv)
 		}
 
 		switch(c){
+        case 0 :
+            fprintf(stderr, "option\n");
+            if(!strcmp(options[index].name, "disable-parser")) {
+                fprintf(stderr, "Disable Parser\n");
+                enable_parser = 0;
+            }
+            break;
 		case 'h' :
 			break;
 		case 'v' :
@@ -130,7 +140,9 @@ int main(int argc, char **argv)
 #endif
 
 #if USE_PARSER
-			    MyParser(parser, 0, NULL);
+                if(enable_parser){
+			        MyParser(parser, 0, NULL);
+                }
 #endif
 				break;
 			}
@@ -141,7 +153,9 @@ int main(int argc, char **argv)
 
 #if USE_PARSER
 			sprintf(buf, "%.*s", (int)(s->cur - s->tok), s->tok);
-			MyParser(parser, token_id, &token);
+            if(enable_parser){
+			    MyParser(parser, token_id, &token);
+            }
 #endif
 			
 		}
