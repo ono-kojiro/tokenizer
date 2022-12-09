@@ -46,8 +46,9 @@ START_TEST (mytestcase)
     };
 
 #if USE_PARSER
-    void *parser;
+    void *parser = NULL;
     Token token;
+    USERDATA *userdata = NULL;
 #endif
 
     fp_in = fmemopen(lines, strlen(lines), "rt");
@@ -57,9 +58,12 @@ START_TEST (mytestcase)
 	Input_SetStream(s, fp_in, stdout);
 
 #if USE_PARSER
-    parser = (void *)MyParserAlloc(malloc, NULL);
-    MyParserInit(parser, NULL);
+    userdata = (USERDATA *)Userdata_Create();
+    
+    parser = (void *)MyParserAlloc(malloc, userdata);
+    MyParserInit(parser, userdata);
     MyParserTrace(stderr, "PARSER : ");
+
 #endif
 
     for(i = 0; i < sizeof(exps) / sizeof(exps[0]); i++){
@@ -72,12 +76,18 @@ START_TEST (mytestcase)
         MyParser(parser, got, &token);
 #endif
     }
+
+    MyParser(parser, 0, &token);
+    ck_assert_int_eq(userdata->accept, 1);
+    
     
 	Input_Delete(s);
 	fclose(fp_in);
 
 #if USE_PARSER
+    MyParserFinalize(parser);
     MyParserFree(parser, free);
+    Userdata_Delete(userdata);
 #endif
 
 	return;
@@ -184,10 +194,12 @@ Suite *mysuite(void)
     tc = tcase_create("array_test");
     tcase_add_test(tc, array_test);
     suite_add_tcase(suite, tc);
-    
+
+    /*
     tc = tcase_create("true_false_test");
     tcase_add_test(tc, true_false_test);
     suite_add_tcase(suite, tc);
+    */
 
     return suite;
 }

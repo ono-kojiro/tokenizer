@@ -1,6 +1,6 @@
 noinst_PROGRAMS = test_init
 
-LOG_DRIVER := $(SHELL) driver_wrapper.sh $(top_srcdir)/config/test-driver
+LOG_DRIVER := $(SHELL) tap_wrapper.sh $(top_srcdir)/config/test-driver
 
 TESTS = \
 	test_simple.sh \
@@ -10,7 +10,7 @@ TESTS = \
 
 check_PROGRAMS = test_init
 
-EXTRA_DIST = $(TESTS) driver_wrapper.sh tap_wrapper.sh
+EXTRA_DIST = $(TESTS) test_prove.sh tap_wrapper.sh
 
 all :
 	if [ "$(abs_srcdir)" != "$(abs_builddir)" ]; then \
@@ -24,7 +24,7 @@ test :
 	prove \
         --formatter TAP::Formatter::JUnit \
         --timer \
-        tap_wrapper.sh \
+        test_prove.sh \
         > junit_result.xml
 
 test_init_SOURCES = test_init.c

@@ -7,6 +7,9 @@ typedef struct _USERDATA {
   int state;
   int count;
   sqlite3 *db;
+  int accept;
+  int failure;
+  int error;
 } USERDATA;
 
 USERDATA *Userdata_Create();

@@ -37,18 +37,20 @@ void token_destructor(Token *t)
 
 %parse_accept
 {
-	fprintf(stderr, "parsing complete!\n\n\n"); 
+	fprintf(stderr, "parsing complete!\n\n\n");
+    userdata->accept = 1;
 }
 
 %parse_failure
 {
 	fprintf(stderr, "parsing failed!\n\n\n");
+    userdata->failure = 1;
 }
-   
+
 %syntax_error {  
   fprintf(stderr, "Syntax error!\n");
-  exit(1);
-}   
+  userdata->error = 1;
+} 
 
 %start_symbol input
 
